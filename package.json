@@ -1,0 +1,24 @@
+{
+  "name": "yt-video",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "sourav": "nodemon server.js"
+  },
+  "keywords": [],
+  "author": "sourav Engineer wala",
+  "license": "ISC",
+  "description": "This is the project of youtube video download backend",
+  "dependencies": {
+    "@distube/ytdl-core": "^4.16.3",
+    "colors": "^1.4.0",
+    "cors": "^2.8.5",
+    "cross": "^1.0.0",
+    "express": "^4.21.2",
+    "morgan": "^1.10.0",
+    "nodemon": "^3.1.9",
+    "ytdl-core": "^4.11.5"
+  }
+}
