@@ -123,7 +123,7 @@ const DownloadVideo = async (req, res) => {
         const randomNumber = Math.floor(100000 + Math.random() * 900000);
         const filename = `${randomNumber}`;
 
-        //* response headers for download
+        //* response headers for download  
         res.header("Content-Disposition", `attachment; filename="${filename}.${fileExtension}"`);
         res.header("Content-Type", format.mimeType);
 

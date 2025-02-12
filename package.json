@@ -8,7 +8,7 @@
     "sourav": "nodemon server.js"
   },
   "keywords": [],
-  "author": "sourav Engineer wala",
+  "author": "sourav Engineer wala sourav", 
   "license": "ISC",
   "description": "This is the project of youtube video download backend",
   "dependencies": {
