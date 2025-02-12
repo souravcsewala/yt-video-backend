@@ -6,7 +6,7 @@ const { HttpsProxyAgent } = require('https-proxy-agent');
 const https = require('https');
 
 // Define your proxy
-const proxyUrl = 'http://103.41.33.246:58080';
+const proxyUrl = 'http://130.245.32.202:80';
 const agent = new HttpsProxyAgent(proxyUrl);
 const client = new https.Agent({ agent });
 
