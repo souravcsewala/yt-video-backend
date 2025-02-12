@@ -2,13 +2,15 @@
 // const ytdl = require('ytdl-core-discord');
 const ytdl = require('@distube/ytdl-core');
 
-const { HttpsProxyAgent } = require('https-proxy-agent');
-const https = require('https');
+const YOUTUBE_COOKIES=process.env.YOUTUBE_COOKIES
 
-// Define your proxy
-const proxyUrl = 'http://130.245.32.202:80';
-const agent = new HttpsProxyAgent(proxyUrl);
-const client = new https.Agent({ agent });
+// const { HttpsProxyAgent } = require('https-proxy-agent');
+// const https = require('https');
+
+//! Define my proxy
+// const proxyUrl = 'http://130.245.32.202:80';
+// const agent = new HttpsProxyAgent(proxyUrl);
+// const client = new https.Agent({ agent });
 
 //! 1. first get the video URL from the fronted then cheak it and send the video format to the client 
 //? make beautiful logic by sourav let's go..........
@@ -26,7 +28,12 @@ const GetTheUrlAndSendFormat = async (req, res, next) => {
             return res.status(400).json({ msg: "Invalid YouTube Video Id" });
         }
 
-        const info = await ytdl.getInfo(videoID, { requestOptions: { client } });
+        const info = await ytdl.getInfo(videoID, {
+             requestOptions:{
+                 headers: {
+            Cookie: YOUTUBE_COOKIES
+         }
+    }});
         const videoDetails = info.videoDetails;
 
         const videoTitle = videoDetails.title;
@@ -106,7 +113,10 @@ const DownloadVideo = async (req, res) => {
         }
 
         //* get video info note: getinfo kaj korba but jodi getBasicinfo use kora hoyy akhana function extract hoba na 
-        const info = await ytdl.getInfo(videoID, { requestOptions: { client } });
+        const info = await ytdl.getInfo(videoID, { requestOptions: {
+            headers: {
+       Cookie: YOUTUBE_COOKIES
+    }} });
         console.log("info", info);
 
         //* find the correct format jai format user select korba fronted thaka 
@@ -130,7 +140,10 @@ const DownloadVideo = async (req, res) => {
         res.header("Content-Type", format.mimeType);
   
         //*  Stream the video/audio
-        ytdl(videoUrl, { quality: itag, filter: format.hasVideo ? "audioandvideo" : "audioonly",requestOptions: { client } })
+        ytdl(videoUrl, { quality: itag, filter: format.hasVideo ? "audioandvideo" : "audioonly",requestOptions: {
+            headers: {
+       Cookie: YOUTUBE_COOKIES
+    }} })
             .on("error", (err) => {
                 console.error("Stream Error:", err);
                 res.status(500).json({ error: "Failed to stream video" });
