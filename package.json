@@ -12,7 +12,8 @@
   "license": "ISC",
   "description": "This is the project of youtube video download backend",
   "dependencies": {
-    "@distube/ytdl-core": "^4.16.3",
+    "@distube/ytdl-core": "^4.16.4",
+    "axios": "^1.8.3",
     "colors": "^1.4.0",
     "cors": "^2.8.5",
     "cross": "^1.0.0",

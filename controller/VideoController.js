@@ -2,6 +2,7 @@
 // const ytdl = require('ytdl-core-discord');
 const ytdl = require('@distube/ytdl-core');
 
+
 const YOUTUBE_COOKIES=process.env.YOUTUBE_COOKIES
 
 // const { HttpsProxyAgent } = require('https-proxy-agent');
@@ -28,12 +29,7 @@ const GetTheUrlAndSendFormat = async (req, res, next) => {
             return res.status(400).json({ msg: "Invalid YouTube Video Id" });
         }
 
-        const info = await ytdl.getInfo(videoID, {
-             requestOptions:{
-                 headers: {
-            Cookie: YOUTUBE_COOKIES
-         }
-    }});
+        const info = await ytdl.getInfo(videoID, );
         const videoDetails = info.videoDetails;
 
         const videoTitle = videoDetails.title;
@@ -79,7 +75,7 @@ const GetTheUrlAndSendFormat = async (req, res, next) => {
         res.json({
             title: videoTitle,
             thumbnail: thumbnailUrl,
-            formats: [...videoFormats, ...(audioData ? [audioData] : [])],
+            formats: videoFormats,
         });
 
     } catch (error) {
@@ -98,6 +94,7 @@ const GetTheUrlAndSendFormat = async (req, res, next) => {
 //! 2. download the video after get the format user download 
 //? make beautiful logic by sourav let's go..........
 
+
 const DownloadVideo = async (req, res) => {
     let videoUrl = req.query.url;
     let itag = req.query.itag;
@@ -113,11 +110,8 @@ const DownloadVideo = async (req, res) => {
         }
 
         //* get video info note: getinfo kaj korba but jodi getBasicinfo use kora hoyy akhana function extract hoba na 
-        const info = await ytdl.getInfo(videoID, { requestOptions: {
-            headers: {
-       Cookie: YOUTUBE_COOKIES
-    }} });
-        console.log("info", info);
+        const info = await ytdl.getInfo(videoID, );
+        // console.log("info", info);
 
         //* find the correct format jai format user select korba fronted thaka 
         const format = info.formats.find(f => f.itag == Number(itag));
@@ -140,10 +134,7 @@ const DownloadVideo = async (req, res) => {
         res.header("Content-Type", format.mimeType);
   
         //*  Stream the video/audio
-        ytdl(videoUrl, { quality: itag, filter: format.hasVideo ? "audioandvideo" : "audioonly",requestOptions: {
-            headers: {
-       Cookie: YOUTUBE_COOKIES
-    }} })
+        ytdl(videoUrl, { quality: itag, filter: format.hasVideo ? "audioandvideo" : "audioonly", })
             .on("error", (err) => {
                 console.error("Stream Error:", err);
                 res.status(500).json({ error: "Failed to stream video" });
@@ -155,6 +146,7 @@ const DownloadVideo = async (req, res) => {
         res.status(500).json({ error: "Failed to process video download" });
     }
 };
+
 
 
 
